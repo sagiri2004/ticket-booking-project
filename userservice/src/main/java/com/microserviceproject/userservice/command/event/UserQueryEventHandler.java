@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
-public class UserEventHandler {
+public class UserQueryEventHandler {
 	@Autowired
 	private UserRepository userRepository;
 
@@ -23,22 +21,17 @@ public class UserEventHandler {
 	public void on(UserCreatedEvent event) {
 		User user = new User();
 		BeanUtils.copyProperties(event, user);
-
-		user.setPassword(passwordEncoder.encode(event.getPassword()));
-
 		userRepository.save(user);
 	}
 
 	@EventHandler
-	public void on(UserUpdatedEvent event) throws Exception {
-		Optional<User> oldUser = userRepository.findById(event.getId());
-		User user = oldUser.orElseThrow(() -> new Exception("User not found"));
+	public void on(UserUpdatedEvent event) {
+		User user = userRepository.findById(event.getId())
+				.orElseThrow(() -> new RuntimeException("User not found"));
 
-		user.setUsername(event.getUsername());
-
-		if (event.getPassword() != null && !event.getPassword().isEmpty()) {
-			user.setPassword(passwordEncoder.encode(event.getPassword()));
-		}
+		user.setName(event.getName());
+		user.setEmail(event.getEmail());
+		user.setActive(event.getActive());
 
 		userRepository.save(user);
 	}

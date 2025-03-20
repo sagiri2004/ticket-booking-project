@@ -1,4 +1,4 @@
-package com.microserviceproject.userservice.config;
+package com.microserviceproject.userservice.configuration;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;

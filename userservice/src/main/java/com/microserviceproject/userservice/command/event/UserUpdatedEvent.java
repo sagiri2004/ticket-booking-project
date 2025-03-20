@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserUpdatedEvent {
 	private String id;
-	private String username;
-	private String password;
+	private String name;
+	private String email;
+	private Boolean active;
 }

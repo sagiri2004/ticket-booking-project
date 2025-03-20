@@ -3,24 +3,28 @@ package com.example.authenticationservice.service.impl;
 import com.example.authenticationservice.dto.request.LoginRequest;
 import com.example.authenticationservice.dto.request.RegisterRequest;
 import com.example.authenticationservice.dto.response.AuthResponse;
+import com.example.authenticationservice.event.AuthUserCreatedEvent;
 import com.example.authenticationservice.exception.AuthException;
+import com.example.authenticationservice.kafka.KafkaService;
 import com.example.authenticationservice.model.AuthUser;
 import com.example.authenticationservice.repository.AuthUserRepository;
 import com.example.authenticationservice.service.AuthService;
 import com.example.authenticationservice.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 	private final AuthUserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final KafkaService kafkaService;
 	private final JwtUtil jwtUtil;
 
 	@Override
@@ -53,6 +57,11 @@ public class AuthServiceImpl implements AuthService {
 
 		// Tạo JWT token chứa userId, username và roles
 		String token = jwtUtil.generateToken(userId, newUser.getUsername(), newUser.getRoles());
+
+		AuthUserCreatedEvent event = new AuthUserCreatedEvent(userId, request.getEmail(), request.getName());
+		kafkaService.sendAuthUserCreatedEvent(event);
+
+		log.info("AuthUserCreatedEvent sent to Kafka:  " + event.toString());
 
 		// Trả về response
 		return AuthResponse.builder()

@@ -19,8 +19,9 @@ import org.springframework.beans.BeanUtils;
 public class UserAggregate {
 	@AggregateIdentifier
 	private String id;
-	private String username;
-	private String password;
+	private String name;
+	private String email;
+	private Boolean active;
 
 	@CommandHandler
 	public UserAggregate(CreateUserCommand command) {
@@ -46,15 +47,17 @@ public class UserAggregate {
 	@EventSourcingHandler
 	public void on(UserCreatedEvent event) {
 		this.id = event.getId();
-		this.username = event.getUsername();
-		this.password = event.getPassword();
+		this.name = event.getName();
+		this.email = event.getEmail();
+		this.active = event.getActive();
 	}
 
 	@EventSourcingHandler
 	public void on(UserUpdatedEvent event) {
 		this.id = event.getId();
-		this.username = event.getUsername();
-		this.password = event.getPassword();
+		this.name = event.getName();
+		this.email = event.getEmail();
+		this.active = event.getActive();
 	}
 
 	@EventSourcingHandler

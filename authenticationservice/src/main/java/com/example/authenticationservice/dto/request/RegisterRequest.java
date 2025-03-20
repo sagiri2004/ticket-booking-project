@@ -14,7 +14,8 @@ import java.util.HashSet;
 public class RegisterRequest {
 	String username;
 	String password;
-
+	String name;
+	String email;
 	@Builder.Default
 	Set<String> roles = new HashSet<>(Set.of("USER"));
 }

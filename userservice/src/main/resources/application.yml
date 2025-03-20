@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 9002
 
 eureka:
   client:
@@ -10,17 +10,27 @@ spring:
   application:
     name: user-service
   datasource:
-    url: jdbc:mysql://localhost:3306/user_service_db?createDatabaseIfNotExist=true
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/user_db?createDatabaseIfNotExist=true
     username: root
     password: root
-
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
+  sql:
+    init:
+      mode: always
+      platform: mysql
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cache:
+    type: redis
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: user-service
 
 axon:
   axonserver:
     servers: localhost:8124
-

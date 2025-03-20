@@ -11,6 +11,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 public class CreateUserCommand {
 	@TargetAggregateIdentifier
 	private String id;
-	private String username;
-	private String password;
+	private String email;
+	private String name;
+	private boolean active;
 }

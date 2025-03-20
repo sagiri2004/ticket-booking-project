@@ -1,4 +1,4 @@
-package com.microserviceproject.userservice.command.event;
+package com.example.authenticationservice.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserCreatedEvent {
+public class AuthUserCreatedEvent {
 	private String id;
-	private String name;
 	private String email;
-	private Boolean active;
+	private String name;
 }

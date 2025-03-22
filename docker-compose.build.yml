@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  discovery-server:
+    build:
+      context: .
+      dockerfile: discoveryserver/Dockerfile
+    image: $DOCKER_USERNAME/discovery-server:latest
+    networks:
+      - microservice-networks
+
+  authentication-service:
+    build:
+      context: .
+      dockerfile: authenticationservice/Dockerfile
+    image: $DOCKER_USERNAME/authentication-service:latest
+    networks:
+      - microservice-networks
+
+  user-service:
+    build:
+      context: .
+      dockerfile: userservice/Dockerfile
+    image: $DOCKER_USERNAME/user-service:latest
+    networks:
+      - microservice-networks
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: apigateway/Dockerfile
+    image: $DOCKER_USERNAME/api-gateway:latest
+    networks:
+      - microservice-networks
+
+networks:
+  microservice-networks:
+    driver: bridge

@@ -22,6 +22,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: List files in the working directory
         run: ls -la
+      - name: Set environment variables
+        run: |
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" >> $GITHUB_ENV
+          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Install Docker Compose
         run: sudo apt-get update && sudo apt-get install -y docker-compose

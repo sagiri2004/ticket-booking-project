@@ -1,0 +1,36 @@
+server:
+  port: 9002
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://mysql-container:3306/user_db?createDatabaseIfNotExist=true
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always
+      platform: mysql
+  data:
+    redis:
+      host: redis-container
+      port: 6379
+  cache:
+    type: redis
+  kafka:
+    bootstrap-servers: kafka-container:9092
+    consumer:
+      group-id: user-service
+
+axon:
+  axonserver:
+    servers: axon-server:8124

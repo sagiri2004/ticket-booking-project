@@ -1,0 +1,30 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: authentication-service
+  datasource:
+    url: jdbc:mysql://mysql-container:3306/auth_db?createDatabaseIfNotExist=true
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always
+      platform: mysql
+  kafka:
+    bootstrap-servers: kafka-container:9092
+    consumer:
+      group-id: authentication-service
+
+jwt:
+  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  expirationMs: 86400000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka

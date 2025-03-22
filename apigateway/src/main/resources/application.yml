@@ -15,7 +15,7 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/api/v1/user/**
+            - Path=/api/v1/users/**
           filters:
             - name: RequestRateLimiter
               args:
@@ -35,34 +35,6 @@ spring:
                 redis-rate-limiter.replenishRate: 10
                 redis-rate-limiter.burstCapacity: 20
                 redis-rate-limiter.requestedTokens: 1
-#
-#        # Borrowing Service
-#        - id: borrowingservice
-#          uri: lb://borrowingservice
-#          predicates:
-#            - Path=/api/v1/borrowing/**
-#          filters:
-#            - name: RequestRateLimiter
-#              args:
-#                redis-rate-limiter.replenishRate: 10
-#                redis-rate-limiter.burstCapacity: 20
-#                redis-rate-limiter.requestedTokens: 1
-
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password: null
-      timeout: 2000ms
-
-eureka:
-  instance:
-    hostname: discovery-server
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-      register-with-eureka: true
-      fetch-registry: true
 
 jwt:
   signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"

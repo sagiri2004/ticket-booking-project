@@ -1,7 +1,7 @@
 spring:
   data:
     redis:
-      host: redis-container
+      host: redis
       port: 6379
       password: null
       timeout: 2000ms

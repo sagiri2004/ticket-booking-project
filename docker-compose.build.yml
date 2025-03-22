@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: discoveryserver/Dockerfile
-    image: $DOCKER_USERNAME/discovery-server:latest
+    image: ${DOCKER_USERNAME}/discovery-server:latest
     networks:
       - microservice-networks
 
@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: authenticationservice/Dockerfile
-    image: $DOCKER_USERNAME/authentication-service:latest
+    image: ${DOCKER_USERNAME}/authentication-service:latest
     networks:
       - microservice-networks
 
@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: userservice/Dockerfile
-    image: $DOCKER_USERNAME/user-service:latest
+    image: ${DOCKER_USERNAME}/user-service:latest
     networks:
       - microservice-networks
 
@@ -29,7 +29,7 @@ services:
     build:
       context: .
       dockerfile: apigateway/Dockerfile
-    image: $DOCKER_USERNAME/api-gateway:latest
+    image: ${DOCKER_USERNAME}/api-gateway:latest
     networks:
       - microservice-networks
 

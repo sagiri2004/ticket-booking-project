@@ -10,4 +10,5 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 COPY --from=build /app/apigateway/target/*.jar apigateway.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","apigateway.jar"]
+
+ENTRYPOINT ["java","-jar","apigateway.jar", "--spring.profiles.active=docker"]

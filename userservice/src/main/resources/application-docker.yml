@@ -10,7 +10,7 @@ spring:
   application:
     name: user-service
   datasource:
-    url: jdbc:mysql://mysql-container:3306/user_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://mysql:3306/user_db?createDatabaseIfNotExist=true
     username: root
     password: root
   jpa:
@@ -22,15 +22,16 @@ spring:
       platform: mysql
   data:
     redis:
-      host: redis-container
+      host: redis
       port: 6379
   cache:
     type: redis
   kafka:
-    bootstrap-servers: kafka-container:9092
+    bootstrap-servers: broker:9092
     consumer:
       group-id: user-service
 
 axon:
   axonserver:
     servers: axon-server:8124
+    context: default

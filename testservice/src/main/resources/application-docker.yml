@@ -1,0 +1,15 @@
+server:
+  port: 9003
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka
+      register-with-eureka: true
+      fetch-registry: true
+
+spring:
+  application:
+    name: test-service

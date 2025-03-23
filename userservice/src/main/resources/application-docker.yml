@@ -2,6 +2,8 @@ server:
   port: 9002
 
 eureka:
+  instance:
+    preferIpAddress: true
   client:
     service-url:
       defaultZone: http://discovery-server:8761/eureka
@@ -28,6 +30,10 @@ spring:
     type: redis
   kafka:
     bootstrap-servers: broker:9092
+    producer:
+      properties:
+        auto.create.topics.enable: true
+        default.replication.factor: 1
     consumer:
       group-id: user-service
 

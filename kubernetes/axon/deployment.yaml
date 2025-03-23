@@ -1,0 +1,26 @@
+# Axon Server Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: axon-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: axon-server
+  template:
+    metadata:
+      labels:
+        app: axon-server
+    spec:
+      containers:
+        - name: axon-server
+          image: axoniq/axonserver:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8024
+            - containerPort: 8124
+            - containerPort: 8224
+          env:
+            - name: AXONIQ_AXONSERVER_STANDALONE
+              value: "true"

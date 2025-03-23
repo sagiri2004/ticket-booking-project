@@ -1,0 +1,463 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discovery-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discovery-server
+  template:
+    metadata:
+      labels:
+        app: discovery-server
+    spec:
+      containers:
+        - name: discovery-server
+          image: train-ticket-booking-project-discovery-server
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8761
+
+---
+# Discovery Server Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery-server
+spec:
+  selector:
+    app: discovery-server
+  ports:
+    - protocol: TCP
+      port: 8761
+      targetPort: 8761
+  type: NodePort
+
+---
+# API Gateway Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: train-ticket-booking-project-api-gateway
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+
+---
+# API Gateway Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    app: api-gateway
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: NodePort
+
+---
+# User Service Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-service
+  template:
+    metadata:
+      labels:
+        app: test-service
+    spec:
+      containers:
+        - name: test-service
+          image: train-ticket-booking-project-test-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9003
+
+---
+# User Service Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-service
+spec:
+  selector:
+    app: test-service
+  ports:
+    - name: user-port
+      protocol: TCP
+      port: 9003
+      targetPort: 9003
+  type: ClusterIP
+
+---
+# User Service Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: train-ticket-booking-project-user-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9002
+
+---
+# User Service Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+spec:
+  selector:
+    app: user-service
+  ports:
+    - name: user-port
+      protocol: TCP
+      port: 9002
+      targetPort: 9002
+  type: ClusterIP
+---
+# Authentication Service Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication-service
+  template:
+    metadata:
+      labels:
+        app: authentication-service
+    spec:
+      containers:
+        - name: authentication-service
+          image: train-ticket-booking-project-authentication-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9001
+
+---
+# Authentication Service Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication-service
+spec:
+  selector:
+    app: authentication-service
+  ports:
+    - name: auth-port
+      protocol: TCP
+      port: 9001
+      targetPort: 9001
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  selector:
+    app: redis
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "auth_db"
+          ports:
+            - containerPort: 3306
+          livenessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost"]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP  # Chọn NodePort nếu muốn truy cập từ ngoài cluster
+---
+# Zookeeper Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+        - name: zookeeper
+          image: confluentinc/cp-zookeeper:7.7.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 2181
+          env:
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: "2181"
+
+---
+# Zookeeper Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+spec:
+  selector:
+    app: zookeeper
+  ports:
+    - name: client
+      port: 2181
+      targetPort: 2181
+  type: ClusterIP
+
+---
+# Kafka Broker Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broker
+  template:
+    metadata:
+      labels:
+        app: broker
+    spec:
+      containers:
+        - name: broker
+          image: confluentinc/cp-server:7.7.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9092
+            - containerPort: 29092
+            - containerPort: 9101
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: KAFKA_BROKER_ID
+              value: "1"
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: "zookeeper:2181"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://broker.$(POD_NAMESPACE).svc.cluster.local:29092,PLAINTEXT_HOST://broker.$(POD_NAMESPACE).svc.cluster.local:9092"
+            - name: KAFKA_METRIC_REPORTERS
+              value: "io.confluent.metrics.reporter.ConfluentMetricsReporter"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS
+              value: "0"
+            - name: KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+              value: "1"
+            - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_JMX_PORT
+              value: "9101"
+            - name: KAFKA_JMX_HOSTNAME
+              value: "localhost"
+            - name: CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS
+              value: "broker:29092"
+            - name: CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS
+              value: "1"
+            - name: CONFLUENT_METRICS_ENABLE
+              value: "true"
+            - name: CONFLUENT_SUPPORT_CUSTOMER_ID
+              value: "anonymous"
+            - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
+              value: "true"
+            - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_MIN_INSYNC_REPLICAS
+              value: "1"
+            - name: KAFKA_NUM_PARTITIONS
+              value: "1"
+
+---
+# Kafka Broker Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: broker
+spec:
+  selector:
+    app: broker
+  ports:
+    - name: kafka-client
+      protocol: TCP
+      port: 9092
+      targetPort: 9092
+    - name: kafka-internal
+      protocol: TCP
+      port: 29092
+      targetPort: 29092
+    - name: kafka-jmx
+      protocol: TCP
+      port: 9101
+      targetPort: 9101
+  type: ClusterIP
+---
+# Axon Server Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: axon-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: axon-server
+  template:
+    metadata:
+      labels:
+        app: axon-server
+    spec:
+      containers:
+        - name: axon-server
+          image: axoniq/axonserver:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8024
+            - containerPort: 8124
+            - containerPort: 8224
+          env:
+            - name: AXONIQ_AXONSERVER_STANDALONE
+              value: "true"
+
+---
+# Axon Server Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: axon-server
+  labels:
+    app: axon-server
+spec:
+  selector:
+    app: axon-server
+  ports:
+    - name: web-port
+      protocol: TCP
+      port: 8024
+      targetPort: 8024
+    - name: grpc-port
+      protocol: TCP
+      port: 8124
+      targetPort: 8124
+    - name: replication-port
+      protocol: TCP
+      port: 8224
+      targetPort: 8224
+  type: NodePort

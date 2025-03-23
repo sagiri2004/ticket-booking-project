@@ -1,0 +1,21 @@
+# Test Service Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-service
+  template:
+    metadata:
+      labels:
+        app: test-service
+    spec:
+      containers:
+        - name: test-service
+          image: train-ticket-booking-project-test-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9003

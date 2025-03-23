@@ -1,0 +1,24 @@
+# Axon Server Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: axon-server
+  labels:
+    app: axon-server
+spec:
+  selector:
+    app: axon-server
+  ports:
+    - name: web-port
+      protocol: TCP
+      port: 8024
+      targetPort: 8024
+    - name: grpc-port
+      protocol: TCP
+      port: 8124
+      targetPort: 8124
+    - name: replication-port
+      protocol: TCP
+      port: 8224
+      targetPort: 8224
+  type: NodePort

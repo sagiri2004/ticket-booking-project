@@ -1,0 +1,21 @@
+# Authentication Service Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication-service
+  template:
+    metadata:
+      labels:
+        app: authentication-service
+    spec:
+      containers:
+        - name: authentication-service
+          image: train-ticket-booking-project-authentication-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9001

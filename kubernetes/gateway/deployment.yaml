@@ -1,0 +1,21 @@
+# API Gateway Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: train-ticket-booking-project-api-gateway
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080

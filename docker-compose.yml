@@ -144,6 +144,22 @@ services:
     networks:
       - microservice-networks
 
+  test-service:
+    build:
+      context: .
+      dockerfile: testservice/Dockerfile
+    ports:
+      - "9003:9003"
+    networks:
+      - microservice-networks
+    depends_on:
+      mysql:
+        condition: service_healthy
+      discovery-server:
+        condition: service_started
+      axon-server:
+        condition: service_started
+
 volumes:
   axonserver-data:
   axonserver-events:

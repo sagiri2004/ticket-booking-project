@@ -1,14 +1,64 @@
+server:
+  port: 8080
+
 spring:
+  application:
+    name: api-gateway
   data:
     redis:
       host: redis
       port: 6379
       password: null
-      timeout: 2000ms
+      timeout: 2000m
+  cloud:
+    gateway:
+      discover:
+        locator:
+          enabled: true
+
+      routes:
+        # User Service
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+            - JwtAuthFilter
+
+        # Auth Service
+        - id: authentication-service
+          uri: lb://authentication-service
+          predicates:
+            - Path=/api/v1/auth/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+        # Auth Service
+        - id: test-service
+          uri: lb://test-service
+          predicates:
+            - Path=/api/v1/tests/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+jwt:
+  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  expirationMs: 86400000
 
 eureka:
   instance:
-    hostname: gateway-service
+    preferIpAddress: true
   client:
     service-url:
       defaultZone: http://discovery-server:8761/eureka

@@ -33,6 +33,13 @@ services:
     networks:
       - microservice-networks
 
+  test-service:
+    build:
+      context: .
+      dockerfile: testservice/Dockerfile
+    image: ${DOCKER_USERNAME}/api-gateway:latest
+    networks:
+      - microservice-networks
 networks:
   microservice-networks:
     driver: bridge

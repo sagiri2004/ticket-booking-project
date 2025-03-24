@@ -36,6 +36,12 @@ deploy_component() {
       echo "Applying service: $file"
       minikube kubectl -- apply -f "$file"
     done
+
+    #Final apply hpa files to auto scale Pods
+    find "$component" -name "hpa.yaml" -type f -print0 | sort -z | while IFS= read -r -d '' file; do
+      echo "Applying auto scale: $file"
+      minikube kubectl -- apply -f "$file"
+    done
   fi
 }
 

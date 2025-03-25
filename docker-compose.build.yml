@@ -33,6 +33,14 @@ services:
     networks:
       - microservice-networks
 
+  ticket-service:
+    build:
+      context: .
+      dockerfile: ticketservice/Dockerfile
+    image: ${DOCKER_USERNAME}/api-gateway:latest
+    networks:
+      - microservice-networks
+
   test-service:
     build:
       context: .

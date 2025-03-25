@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserQueryEventHandler {
+public class UserCommandEventsHandler {
 	@Autowired
 	private UserRepository userRepository;
 

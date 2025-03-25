@@ -2,7 +2,7 @@ package com.microserviceproject.userservice.command.kafka.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microserviceproject.userservice.command.command.CreateUserCommand;
-import com.microserviceproject.userservice.command.kafka.event.AuthUserCreatedEvent;
+import com.microserviceproject.userservice.command.kafka.events.AuthUserCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.BeanUtils;
@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 @Slf4j

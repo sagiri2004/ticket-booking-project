@@ -1,4 +1,4 @@
-package com.example.ticketservice.command.kafka.events;
+package com.example.bookingservice.command.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

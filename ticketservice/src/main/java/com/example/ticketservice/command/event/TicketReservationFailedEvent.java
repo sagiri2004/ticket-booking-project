@@ -1,4 +1,4 @@
-package com.example.ticketservice.command.kafka.events;
+package com.example.ticketservice.command.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingCreatedEvent {
+public class TicketReservationFailedEvent {
 	private String id;
-	private String userId;
-	private String ticketId;
 	private int quantity;
+	private String bookingId;
 }

@@ -2,6 +2,8 @@ package com.example.ticketservice.command.event;
 
 import com.example.ticketservice.command.data.Ticket;
 import com.example.ticketservice.command.data.TicketRepository;
+import com.example.ticketservice.command.kafka.producer.BookingEventProducer;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.DisallowReplay;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;
@@ -9,9 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class TicketCommandEventsHandler {
 	@Autowired
 	private TicketRepository ticketRepository;
+
+	@Autowired
+	private BookingEventProducer bookingEventProducer;
 
 	@EventHandler
 	public void on(TicketCreatedEvent event) {
@@ -42,7 +48,7 @@ public class TicketCommandEventsHandler {
 					.orElseThrow(() -> new Exception("Ticket not found"));
 			ticketRepository.deleteById(event.getId());
 		} catch (Exception ex) {
-			// log.error(ex.getMessage());
+			log.error(ex.getMessage());
 		}
 	}
 
@@ -51,8 +57,15 @@ public class TicketCommandEventsHandler {
 		int updatedRows = ticketRepository.updateRemainingQuantity(event.getId(), event.getQuantity());
 
 		if (updatedRows == 0) {
-			throw new RuntimeException("Not enough tickets available for booking!");
+			TicketReservationFailedEvent failedEvent = new TicketReservationFailedEvent(event.getId(), event.getQuantity(), event.getBookingId());
+			bookingEventProducer.sendTicketReservationFailedEvent(failedEvent);
+		} else {
+			bookingEventProducer.sendTicketReservedEvent(event);
 		}
 	}
 
+	@EventHandler
+	public void on(TicketReservationFailedEvent event) {
+		bookingEventProducer.sendTicketReservationFailedEvent(event);
+	}
 }

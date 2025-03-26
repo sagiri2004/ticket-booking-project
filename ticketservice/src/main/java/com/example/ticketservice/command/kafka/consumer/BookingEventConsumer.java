@@ -1,11 +1,10 @@
 package com.example.ticketservice.command.kafka.consumer;
 
-import com.example.ticketservice.command.kafka.commands.UpdateTicketQuantityCommand;
+import com.example.ticketservice.command.commands.UpdateTicketQuantityCommand;
 import com.example.ticketservice.command.kafka.events.BookingCreatedEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 public class BookingEventConsumer {
 	@Autowired
 	private CommandGateway commandGateway;
-
 	@Autowired
 	private ObjectMapper objectMapper;
 
@@ -27,7 +25,9 @@ public class BookingEventConsumer {
 			log.info("✅ Received BookingCreatedEvent: {}", event);
 
 			UpdateTicketQuantityCommand command = new UpdateTicketQuantityCommand();
-			BeanUtils.copyProperties(event, command);
+			command.setId(event.getTicketId());
+			command.setQuantity(event.getQuantity());
+			command.setBookingId(event.getId());
 
 			commandGateway.send(command);
 

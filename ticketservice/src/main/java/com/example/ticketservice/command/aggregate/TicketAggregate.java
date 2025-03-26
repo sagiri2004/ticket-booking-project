@@ -3,11 +3,12 @@ package com.example.ticketservice.command.aggregate;
 import com.example.ticketservice.command.commands.CreateTicketCommand;
 import com.example.ticketservice.command.commands.DeleteTicketCommand;
 import com.example.ticketservice.command.commands.UpdateTicketCommand;
+import com.example.ticketservice.command.commands.UpdateTicketQuantityCommand;
 import com.example.ticketservice.command.event.TicketCreatedEvent;
 import com.example.ticketservice.command.event.TicketDeletedEvent;
 import com.example.ticketservice.command.event.TicketQuantityUpdatedEvent;
 import com.example.ticketservice.command.event.TicketUpdatedEvent;
-import com.example.ticketservice.command.kafka.commands.UpdateTicketQuantityCommand;
+import com.example.ticketservice.command.event.TicketReservationFailedEvent;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -51,11 +52,12 @@ public class TicketAggregate {
 	@CommandHandler
 	public void handle(UpdateTicketQuantityCommand command) {
 		if (this.remainingQuantity < command.getQuantity()) {
-			throw new IllegalArgumentException("Not enough tickets available!");
+			TicketReservationFailedEvent event = new TicketReservationFailedEvent(this.id, command.getQuantity(), command.getBookingId());
+			AggregateLifecycle.apply(event);
+		} else {
+			TicketQuantityUpdatedEvent event = new TicketQuantityUpdatedEvent(this.id, command.getQuantity(), command.getBookingId());
+			AggregateLifecycle.apply(event);
 		}
-
-		TicketQuantityUpdatedEvent event = new TicketQuantityUpdatedEvent(this.id, command.getQuantity());
-		AggregateLifecycle.apply(event);
 	}
 
 	@EventSourcingHandler
@@ -86,5 +88,9 @@ public class TicketAggregate {
 	@EventSourcingHandler
 	public void on(TicketQuantityUpdatedEvent event) {
 		this.remainingQuantity -= event.getQuantity();
+	}
+
+	@EventSourcingHandler
+	public void on(TicketReservationFailedEvent event) {
 	}
 }

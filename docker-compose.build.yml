@@ -41,6 +41,14 @@ services:
     networks:
       - microservice-networks
 
+  booking-service:
+    build:
+      context: .
+      dockerfile: bookingservice/Dockerfile
+    image: ${DOCKER_USERNAME}/booking-gateway:latest
+    networks:
+      - microservice-networks
+
   test-service:
     build:
       context: .

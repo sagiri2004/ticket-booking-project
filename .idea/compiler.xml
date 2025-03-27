@@ -11,7 +11,7 @@
         <module name="discoveryserver" />
         <module name="testservice" />
       </profile>
-      <profile name="Annotation profile for bookingservice" enabled="true">
+      <profile name="Annotation profile for ticketservice" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />

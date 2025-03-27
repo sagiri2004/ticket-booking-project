@@ -4,6 +4,7 @@ import com.example.ticketservice.command.commands.CreateTicketCommand;
 import com.example.ticketservice.command.commands.DeleteTicketCommand;
 import com.example.ticketservice.command.commands.UpdateTicketCommand;
 import com.example.ticketservice.command.commands.UpdateTicketQuantityCommand;
+import com.example.ticketservice.command.data.TicketStatus;
 import com.example.ticketservice.command.event.TicketCreatedEvent;
 import com.example.ticketservice.command.event.TicketDeletedEvent;
 import com.example.ticketservice.command.event.TicketQuantityUpdatedEvent;
@@ -26,7 +27,7 @@ public class TicketAggregate {
 	private Double price;
 	private Integer totalQuantity;
 	private Integer remainingQuantity;
-	private String status;
+	private TicketStatus status;
 
 	@CommandHandler
 	public TicketAggregate(CreateTicketCommand command) {
@@ -51,7 +52,7 @@ public class TicketAggregate {
 
 	@CommandHandler
 	public void handle(UpdateTicketQuantityCommand command) {
-		if (this.remainingQuantity < command.getQuantity()) {
+		if (this.remainingQuantity < command.getQuantity() || this.status == TicketStatus.CANCELED || this.status == TicketStatus.SOLD_OUT) {
 			TicketReservationFailedEvent event = new TicketReservationFailedEvent(this.id, command.getQuantity(), command.getBookingId());
 			AggregateLifecycle.apply(event);
 		} else {

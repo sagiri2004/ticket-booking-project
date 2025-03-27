@@ -22,7 +22,6 @@ public class TicketQueryEventsHandler {
 
 	@EventHandler
 	public void on(TicketCreatedEvent event) {
-		// Xóa cache danh sách tất cả ticket khi có ticket mới
 		redisTemplate.delete("tickets::all_tickets");
 		System.out.println("🗑️ Deleted cache for all tickets (Ticket Created)");
 	}
@@ -33,14 +32,6 @@ public class TicketQueryEventsHandler {
 		redisTemplate.delete(ticketCacheKey);
 		redisTemplate.delete("tickets::all_tickets");
 		System.out.println("🗑️ Deleted cache for ticket ID: " + event.getId());
-
-		// Cập nhật cache nếu ticket tồn tại trong DB
-		ticketRepository.findById(event.getId()).ifPresent(ticket -> {
-			TicketResponseModel ticketModel = new TicketResponseModel();
-			BeanUtils.copyProperties(ticket, ticketModel);
-			redisTemplate.opsForValue().set(ticketCacheKey, ticketModel);
-			System.out.println("✅ Updated cache for ticket ID: " + event.getId());
-		});
 	}
 
 	@EventHandler
@@ -56,14 +47,6 @@ public class TicketQueryEventsHandler {
 		String ticketCacheKey = "tickets::" + event.getId();
 		redisTemplate.delete(ticketCacheKey);
 		redisTemplate.delete("tickets::all_tickets");
-		System.out.println("🗑️ Deleted cache for ticket ID: " + event.getId() + " (Booking Created)");
-
-		// Cập nhật cache nếu ticket vẫn còn trong DB
-		ticketRepository.findById(event.getId()).ifPresent(ticket -> {
-			TicketResponseModel ticketModel = new TicketResponseModel();
-			BeanUtils.copyProperties(ticket, ticketModel);
-			redisTemplate.opsForValue().set(ticketCacheKey, ticketModel);
-			System.out.println("✅ Updated cache for ticket ID: " + event.getId());
-		});
+		System.out.println("🗑️ Deleted cache for ticket ID: " + ticketCacheKey + " (Booking Created)");
 	}
 }

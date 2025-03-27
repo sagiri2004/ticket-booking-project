@@ -1,5 +1,6 @@
 package com.example.ticketservice.command.event;
 
+import com.example.ticketservice.command.data.TicketStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +14,5 @@ public class TicketUpdatedEvent {
 	private Double price;
 	private Integer totalQuantity;
 	private Integer remainingQuantity;
-	private String status;
+	private TicketStatus status;
 }

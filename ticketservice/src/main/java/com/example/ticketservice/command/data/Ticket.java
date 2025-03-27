@@ -17,10 +17,14 @@ public class Ticket {
 	private String id;
 	private String userId;
 	private String name;
+
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
+
 	private Double price;
 	private int totalQuantity;
 	private int remainingQuantity;
-	private String status;
+
+	@Enumerated(EnumType.STRING)
+	private TicketStatus status;
 }

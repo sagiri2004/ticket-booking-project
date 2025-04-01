@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/admin/notify")
+@RequestMapping("/api/v1/notification")
 public class NotificationController {
 
 	private static final Logger logger = LoggerFactory.getLogger(NotificationController.class);

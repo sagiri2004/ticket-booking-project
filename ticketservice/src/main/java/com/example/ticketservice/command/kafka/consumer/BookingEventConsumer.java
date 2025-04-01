@@ -28,7 +28,6 @@ public class BookingEventConsumer {
 			command.setId(event.getTicketId());
 			command.setQuantity(event.getQuantity());
 			command.setBookingId(event.getId());
-
 			commandGateway.send(command);
 
 		} catch (Exception e) {

@@ -11,7 +11,7 @@
         <module name="discoveryserver" />
         <module name="testservice" />
       </profile>
-      <profile name="Annotation profile for ticketservice" enabled="true">
+      <profile name="Annotation profile for notificationservice" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -21,6 +21,7 @@
         <module name="ticketservice" />
         <module name="authenticationservice" />
         <module name="bookingservice" />
+        <module name="notificationservice" />
         <module name="userservice" />
       </profile>
     </annotationProcessing>
@@ -31,6 +32,7 @@
       <module name="authenticationservice" options="-parameters" />
       <module name="bookingservice" options="-parameters" />
       <module name="discoveryserver" options="-parameters" />
+      <module name="notificationservice" options="-parameters" />
       <module name="testservice" options="-parameters" />
       <module name="ticketservice" options="-parameters" />
       <module name="userservice" options="-parameters" />

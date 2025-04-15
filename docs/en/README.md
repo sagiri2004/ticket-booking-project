@@ -1,7 +1,3 @@
-Dưới đây là bản dịch tiếng Anh của README của bạn, phù hợp để đặt trong `README.en.md` hoặc thay thế bản chính nếu bạn muốn dùng tiếng Anh làm ngôn ngữ mặc định:
-
----
-
 # 🎟️ ONLINE EVENT TICKETING SYSTEM - MICROSERVICES ARCHITECTURE
 
 ## 📖 Table of Contents
@@ -173,7 +169,3 @@ spec:
 - Combined with **Prometheus** + **Grafana** for performance monitoring and autoscaling insights.
 
 ![K6 Testing](../images/test/k6-testing.png)
-
----
-
-Nếu bạn muốn, mình có thể tạo thêm bản `README.vi.md` từ nội dung gốc để bạn tổ chức file README dạng đa ngôn ngữ luôn. Muốn mình làm giúp không?

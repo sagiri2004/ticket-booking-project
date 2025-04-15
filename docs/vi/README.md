@@ -168,6 +168,4 @@ spec:
 - Mô phỏng người dùng truy cập vào API.
 - Kết hợp với **Prometheus** + **Grafana** để theo dõi hiệu suất và quá trình autoscale.
 
-![K6 Testing](./docs/images/test/k6-testing.png)
-
-
+![K6 Testing](../images/test/k6-testing.png)

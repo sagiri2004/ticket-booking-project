@@ -1,9 +1,3 @@
-## 📘 Read this in your language
-
-- [English](./README.md)
-- [Tiếng Việt](/docs/vi/README.md)
-
----
 # 🎟️ ONLINE EVENT TICKETING SYSTEM - MICROSERVICES ARCHITECTURE
 
 ## 📖 Table of Contents
@@ -57,7 +51,7 @@ The system consists of multiple **microservices** communicating via **Kafka** or
 
 ### System Overview:
 
-![System Overview](./docs/images/architecture/overview.svg)
+![System Overview](../images/architecture/overview.svg)
 
 | Component             | Description                                  |
 | ---------------------|----------------------------------------------|
@@ -90,7 +84,7 @@ The system consists of multiple **microservices** communicating via **Kafka** or
 
 Services use **CQRS** + **Event Sourcing** with Axon Framework, clearly separating **Commands** and **Queries**.
 
-![CQRS - Axon](./docs/images/architecture/cqrs-axon.svg)
+![CQRS - Axon](../images/architecture/cqrs-axon.svg)
 
 ---
 
@@ -101,7 +95,7 @@ Applied cache pattern:
 - On GET: Fetch from Redis.
 - If cache miss → query DB → write back to Redis.
 
-![Redis cache flow](./docs/images/architecture/redis-cache-flow.svg)
+![Redis cache flow](../images/architecture/redis-cache-flow.svg)
 
 ---
 
@@ -113,7 +107,7 @@ Applied cache pattern:
 - Exposed via `Service`, routed through `Ingress`.
 - Dynamically configured with `ConfigMap`, `Secrets`.
 
-![Kubernetes Deployment](./docs/images/k8s/k8s-deploy.png)
+![Kubernetes Deployment](../images/k8s/k8s-deploy.png)
 
 ```yaml
 apiVersion: apps/v1
@@ -141,7 +135,7 @@ spec:
 
 HPA automatically scales pods based on CPU or custom metrics.
 
-![HPA Scaling](./docs/images/k8s/hpa-scaling.png)
+![HPA Scaling](../images/k8s/hpa-scaling.png)
 
 ```yaml
 apiVersion: autoscaling/v2
@@ -174,4 +168,4 @@ spec:
 - Simulates user interactions with the API.
 - Combined with **Prometheus** + **Grafana** for performance monitoring and autoscaling insights.
 
-![K6 Testing](./docs/images/test/k6-testing.png)
+![K6 Testing](../images/test/k6-testing.png)

@@ -17,6 +17,13 @@ spec:
         - name: zookeeper
           image: confluentinc/cp-zookeeper:7.7.0
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
           ports:
             - containerPort: 2181
           env:

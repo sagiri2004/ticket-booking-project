@@ -1,0 +1,14 @@
+# booking Service Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-service
+spec:
+  selector:
+    app: booking-service
+  ports:
+    - name: booking-port
+      protocol: TCP
+      port: 9005
+      targetPort: 9005
+  type: ClusterIP

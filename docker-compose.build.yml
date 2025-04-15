@@ -33,11 +33,35 @@ services:
     networks:
       - microservice-networks
 
+  ticket-service:
+    build:
+      context: .
+      dockerfile: ticketservice/Dockerfile
+    image: ${DOCKER_USERNAME}/ticket-service:latest
+    networks:
+      - microservice-networks
+
+  booking-service:
+    build:
+      context: .
+      dockerfile: bookingservice/Dockerfile
+    image: ${DOCKER_USERNAME}/booking-gateway:latest
+    networks:
+      - microservice-networks
+
   test-service:
     build:
       context: .
       dockerfile: testservice/Dockerfile
     image: ${DOCKER_USERNAME}/test-service:latest
+    networks:
+      - microservice-networks
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: notificationservice/Dockerfile
+    image: ${DOCKER_USERNAME}/notification-service:latest
     networks:
       - microservice-networks
 networks:

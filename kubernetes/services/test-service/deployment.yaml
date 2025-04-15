@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: test-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: test-service
@@ -21,8 +21,8 @@ spec:
             - containerPort: 9003
           resources:
             requests:
-              cpu: 400m
-              memory: 384Mi
+              cpu: 250m
+              memory: 256Mi
             limits:
-              cpu: 800m
-              memory: 768Mi
+              cpu: 500m
+              memory: 512Mi

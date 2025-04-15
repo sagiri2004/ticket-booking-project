@@ -160,6 +160,54 @@ services:
       axon-server:
         condition: service_started
 
+  ticket-service:
+    build:
+      context: .
+      dockerfile: ticketservice/Dockerfile
+    ports:
+      - "9002:9002"
+    networks:
+      - microservice-networks
+    depends_on:
+      mysql:
+        condition: service_healthy
+      discovery-server:
+        condition: service_started
+      axon-server:
+        condition: service_started
+
+  booking-service:
+    build:
+      context: .
+      dockerfile: bookingservice/Dockerfile
+    ports:
+      - "9002:9002"
+    networks:
+      - microservice-networks
+    depends_on:
+      mysql:
+        condition: service_healthy
+      discovery-server:
+        condition: service_started
+      axon-server:
+        condition: service_started
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: notificationservice/Dockerfile
+    ports:
+      - "9006:9006"
+    networks:
+      - microservice-networks
+    depends_on:
+      mysql:
+        condition: service_healthy
+      discovery-server:
+        condition: service_started
+      axon-server:
+        condition: service_started
+
 volumes:
   axonserver-data:
   axonserver-events:

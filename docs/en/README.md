@@ -51,7 +51,7 @@ The system consists of multiple **microservices** communicating via **Kafka** or
 
 ### System Overview:
 
-![System Overview](../images/architecture/overview.png)
+![System Overview](../images/architecture/overview.svg)
 
 | Component             | Description                                  |
 | ---------------------|----------------------------------------------|
@@ -84,7 +84,7 @@ The system consists of multiple **microservices** communicating via **Kafka** or
 
 Services use **CQRS** + **Event Sourcing** with Axon Framework, clearly separating **Commands** and **Queries**.
 
-![CQRS - Axon](../images/architecture/cqrs-axon.png)
+![CQRS - Axon](../images/architecture/cqrs-axon.svg)
 
 ---
 
@@ -95,7 +95,7 @@ Applied cache pattern:
 - On GET: Fetch from Redis.
 - If cache miss → query DB → write back to Redis.
 
-![Redis cache flow](../images/architecture/redis-cache-flow.png)
+![Redis cache flow](../images/architecture/redis-cache-flow.svg)
 
 ---
 

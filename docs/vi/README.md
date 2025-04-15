@@ -51,7 +51,7 @@ Hệ thống bao gồm nhiều **microservices**, giao tiếp qua **Kafka** ho�
 
 ### Tổng thể hệ thống:
 
-![Tổng thể hệ thống](../images/architecture/overview.png)
+![Tổng thể hệ thống](../images/architecture/overview.svg)
 
 | Thành phần              | Mô tả                                 |
 | ----------------------- | ------------------------------------- |
@@ -84,7 +84,7 @@ Hệ thống bao gồm nhiều **microservices**, giao tiếp qua **Kafka** ho�
 
 Các service sử dụng **CQRS** + **Event Sourcing** với Axon Framework, giúp phân tách rõ **Command** và **Query**.
 
-![CQRS - Axon](../images/architecture/cqrs-axon.png)
+![CQRS - Axon](../images/architecture/cqrs-axon.svg)
 
 ---
 
@@ -95,7 +95,7 @@ Các service sử dụng **CQRS** + **Event Sourcing** với Axon Framework, gi�
 - Khi GET: Lấy từ Redis.
 - Nếu miss → truy vấn DB → ghi lại Redis.
 
-![Redis cache flow](../images/architecture/redis-cache-flow.png)
+![Redis cache flow](../images/architecture/redis-cache-flow.svg)
 
 ---
 

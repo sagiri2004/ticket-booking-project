@@ -1,0 +1,14 @@
+# ticket Service Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticket-service
+spec:
+  selector:
+    app: ticket-service
+  ports:
+    - name: ticket-port
+      protocol: TCP
+      port: 9004
+      targetPort: 9004
+  type: ClusterIP

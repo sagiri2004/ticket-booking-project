@@ -192,6 +192,22 @@ services:
       axon-server:
         condition: service_started
 
+  notification-service:
+    build:
+      context: .
+      dockerfile: notificationservice/Dockerfile
+    ports:
+      - "9006:9006"
+    networks:
+      - microservice-networks
+    depends_on:
+      mysql:
+        condition: service_healthy
+      discovery-server:
+        condition: service_started
+      axon-server:
+        condition: service_started
+
 volumes:
   axonserver-data:
   axonserver-events:

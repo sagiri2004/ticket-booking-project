@@ -14,5 +14,5 @@ public class TicketCreatedEvent {
 	private Double price;
 	private Integer totalQuantity;
 	private Integer remainingQuantity;
-	private TicketStatus status;
+	private TicketStatus status = TicketStatus.AVAILABLE;
 }

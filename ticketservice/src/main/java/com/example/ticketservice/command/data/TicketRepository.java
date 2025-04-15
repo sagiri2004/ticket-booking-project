@@ -11,8 +11,9 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
 	@Query("""
     UPDATE Ticket t 
     SET t.remainingQuantity = t.remainingQuantity - :quantity, 
-        t.status = CASE WHEN (t.remainingQuantity - :quantity) = 0 THEN 'SOLD_OUT' ELSE t.status END
+        t.status = CASE WHEN (t.remainingQuantity - :quantity) <= 0 THEN 'SOLD_OUT' ELSE t.status END
     WHERE t.id = :id AND t.remainingQuantity >= :quantity
 """)
 	int updateRemainingQuantity(@Param("id") String id, @Param("quantity") int quantity);
+
 }

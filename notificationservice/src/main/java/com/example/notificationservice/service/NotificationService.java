@@ -53,7 +53,8 @@ public class NotificationService extends TextWebSocketHandler {
 		sessions.remove(sessionId);
 
 		redisTemplate.keys(USER_SESSION_PREFIX + "*").forEach(key -> {
-			if (redisTemplate.opsForValue().get(key).equals(sessionId)) {
+			Object value = redisTemplate.opsForValue().get(key);
+			if (value != null && value.equals(sessionId)) {
 				redisTemplate.delete(key);
 			}
 		});

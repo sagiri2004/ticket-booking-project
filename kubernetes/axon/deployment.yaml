@@ -24,3 +24,10 @@ spec:
           env:
             - name: AXONIQ_AXONSERVER_STANDALONE
               value: "true"
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: 1000m
+              memory: 2Gi

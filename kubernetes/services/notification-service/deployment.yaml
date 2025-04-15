@@ -1,24 +1,24 @@
-# booking Service Deployment
+# notification Service Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: booking-service
+  name: notification-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: booking-service
+      app: notification-service
   template:
     metadata:
       labels:
-        app: booking-service
+        app: notification-service
     spec:
       containers:
-        - name: booking-service
-          image: train-ticket-booking-project-booking-service
+        - name: notification-service
+          image: train-ticket-booking-project-notification-service
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 9005
+            - containerPort: 9006
           resources:
             requests:
               cpu: 500m

@@ -1,15 +1,15 @@
-# ticket service HorizontalPodAutoscaler
+# API Gateway HorizontalPodAutoscaler
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: ticket-service-hpa
+  name: zookeeper-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: ticket-service
+    name: zookeeper
   minReplicas: 1
-  maxReplicas: 6
+  maxReplicas: 3
   metrics:
     - type: Resource
       resource:

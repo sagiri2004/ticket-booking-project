@@ -7,7 +7,7 @@ spec:
   selector:
     app: test-service
   ports:
-    - name: user-port
+    - name: test-port
       protocol: TCP
       port: 9003
       targetPort: 9003

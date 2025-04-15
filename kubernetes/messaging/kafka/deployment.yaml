@@ -17,6 +17,13 @@ spec:
         - name: broker
           image: confluentinc/cp-server:7.7.0
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 1Gi
+            limits:
+              cpu: 1500m
+              memory: 2Gi
           ports:
             - containerPort: 9092
             - containerPort: 29092

@@ -27,8 +27,7 @@ public class TicketCommandController {
 				model.getName(),
 				model.getPrice(),
 				model.getTotalQuantity(),
-				model.getRemainingQuantity(),
-				model.getStatus()
+				model.getRemainingQuantity()
 		);
 
 		log.info("Create ticket command: {}", command);

@@ -57,7 +57,7 @@ The system consists of multiple **microservices** communicating via **Kafka** or
 
 ### System Overview:
 
-![System Overview](./docs/images/architecture/overview.png)
+![System Overview](./docs/images/architecture/overview.svg)
 
 | Component             | Description                                  |
 | ---------------------|----------------------------------------------|

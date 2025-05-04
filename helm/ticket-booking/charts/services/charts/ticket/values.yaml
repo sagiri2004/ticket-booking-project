@@ -1,4 +1,4 @@
-image: sagiri2004/ticket-booking-ticket:latest
+image: sagiri2k4/ticket-booking-ticket:latest
 port: 9004
 replicas: 1
 resources:

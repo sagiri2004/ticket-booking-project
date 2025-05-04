@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: discoveryserver/Dockerfile
-    image: sagiri2004/ticket-booking-discovery:latest
+    image: sagiri2k4/ticket-booking-discovery:latest
     networks:
       - microservice-networks
 
@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: authenticationservice/Dockerfile
-    image: sagiri2004/ticket-booking-authentication:latest
+    image: sagiri2k4/ticket-booking-authentication:latest
     networks:
       - microservice-networks
 
@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: userservice/Dockerfile
-    image: sagiri2004/ticket-booking-user:latest
+    image: sagiri2k4/ticket-booking-user:latest
     networks:
       - microservice-networks
 
@@ -29,7 +29,7 @@ services:
     build:
       context: .
       dockerfile: apigateway/Dockerfile
-    image: sagiri2004/ticket-booking-gateway:latest
+    image: sagiri2k4/ticket-booking-gateway:latest
     networks:
       - microservice-networks
 
@@ -37,7 +37,7 @@ services:
     build:
       context: .
       dockerfile: ticketservice/Dockerfile
-    image: sagiri2004/ticket-booking-ticket:latest
+    image: sagiri2k4/ticket-booking-ticket:latest
     networks:
       - microservice-networks
 
@@ -45,7 +45,7 @@ services:
     build:
       context: .
       dockerfile: bookingservice/Dockerfile
-    image: sagiri2004/ticket-booking-booking:latest
+    image: sagiri2k4/ticket-booking-booking:latest
     networks:
       - microservice-networks
 
@@ -53,7 +53,7 @@ services:
     build:
       context: .
       dockerfile: testservice/Dockerfile
-    image: sagiri2004/ticket-booking-test:latest
+    image: sagiri2k4/ticket-booking-test:latest
     networks:
       - microservice-networks
 
@@ -61,7 +61,7 @@ services:
     build:
       context: .
       dockerfile: notificationservice/Dockerfile
-    image: sagiri2004/ticket-booking-notification:latest
+    image: sagiri2k4/ticket-booking-notification:latest
     networks:
       - microservice-networks
 

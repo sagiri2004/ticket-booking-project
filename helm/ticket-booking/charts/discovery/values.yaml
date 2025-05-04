@@ -1,4 +1,4 @@
-image: sagiri2004/ticket-booking-discovery:latest
+image: sagiri2k4/ticket-booking-discovery:latest
 replicas: 1
 port: 8761
 resources:

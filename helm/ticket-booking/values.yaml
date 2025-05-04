@@ -50,13 +50,13 @@ messaging:
 
 # Discovery configuration
 discovery:
-  image: sagiri2004/ticket-booking-discovery:latest
+  image: sagiri2k4/ticket-booking-discovery:latest
   replicas: 1
   port: 8761
 
 # Gateway configuration
 gateway:
-  image: sagiri2004/ticket-booking-gateway:latest
+  image: sagiri2k4/ticket-booking-gateway:latest
   replicas: 1
   port: 8080
 
@@ -64,32 +64,32 @@ gateway:
 services:
   authentication:
     enabled: true
-    image: sagiri2004/ticket-booking-authentication:latest
+    image: sagiri2k4/ticket-booking-authentication:latest
     port: 9001
     replicas: 1
   booking:
     enabled: true
-    image: sagiri2004/ticket-booking-booking:latest
+    image: sagiri2k4/ticket-booking-booking:latest
     port: 9005
     replicas: 1
   notification:
     enabled: true
-    image: sagiri2004/ticket-booking-notification:latest
+    image: sagiri2k4/ticket-booking-notification:latest
     port: 9006
     replicas: 1
   test:
     enabled: false
-    image: sagiri2004/ticket-booking-test:latest
+    image: sagiri2k4/ticket-booking-test:latest
     port: 9003
     replicas: 1
   ticket:
     enabled: true
-    image: sagiri2004/ticket-booking-ticket:latest
+    image: sagiri2k4/ticket-booking-ticket:latest
     port: 9004
     replicas: 1
   user:
     enabled: true
-    image: sagiri2004/ticket-booking-user:latest
+    image: sagiri2k4/ticket-booking-user:latest
     port: 9002
     replicas: 1
 

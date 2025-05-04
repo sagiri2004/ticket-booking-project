@@ -1,0 +1,17 @@
+image: redis:6.2
+port: 6379
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+service:
+  type: ClusterIP
+  port: 6379
+hpa:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80

@@ -1,0 +1,8 @@
+kafka:
+  enabled: true
+  image: confluentinc/cp-kafka:latest
+  port: 9092
+zookeeper:
+  enabled: true
+  image: confluentinc/cp-zookeeper:latest
+  port: 2181

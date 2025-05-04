@@ -1,4 +1,4 @@
-image: sagiri2004/ticket-booking-notification:latest
+image: sagiri2k4/ticket-booking-notification:latest
 port: 9006
 replicas: 1
 resources:

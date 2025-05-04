@@ -1,0 +1,9 @@
+mysql:
+  enabled: true
+  image: mysql:8.0
+  port: 3306
+  rootPassword: root
+redis:
+  enabled: true
+  image: redis:6.2
+  port: 6379

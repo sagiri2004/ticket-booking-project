@@ -1,0 +1,5 @@
+apiVersion: v2
+name: authentication
+description: A Helm chart for deploying the authentication microservice
+version: 0.1.0
+appVersion: "1.0.0"

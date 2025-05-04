@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels: { { - include "mysql.labels" . | nindent 4 } }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { { - include "mysql.selectorLabels" . | nindent 6 } }
+  template:
+    metadata:
+      labels: { { - include "mysql.selectorLabels" . | nindent 8 } }
+    spec:
+      containers:
+        - name: mysql
+          image: { { .Values.image } }
+          ports:
+            - containerPort: { { .Values.port } }
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: { { .Values.rootPassword } }
+          resources: { { - toYaml .Values.resources | nindent 10 } }

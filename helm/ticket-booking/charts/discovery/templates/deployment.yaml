@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discovery
+  labels: { { - include "discovery.labels" . | nindent 4 } }
+spec:
+  replicas: { { .Values.replicas } }
+  selector:
+    matchLabels: { { - include "discovery.selectorLabels" . | nindent 6 } }
+  template:
+    metadata:
+      labels: { { - include "discovery.selectorLabels" . | nindent 8 } }
+    spec:
+      containers:
+        - name: discovery
+          image: { { .Values.image } }
+          ports:
+            - containerPort: { { .Values.port } }
+          resources: { { - toYaml .Values.resources | nindent 10 } }

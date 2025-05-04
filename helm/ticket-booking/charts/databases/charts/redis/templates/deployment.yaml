@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels: { { - include "redis.labels" . | nindent 4 } }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { { - include "redis.selectorLabels" . | nindent 6 } }
+  template:
+    metadata:
+      labels: { { - include "redis.selectorLabels" . | nindent 8 } }
+    spec:
+      containers:
+        - name: redis
+          image: { { .Values.image } }
+          ports:
+            - containerPort: { { .Values.port } }
+          resources: { { - toYaml .Values.resources | nindent 10 } }

@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: discoveryserver/Dockerfile
-    image: ${DOCKER_USERNAME}/discovery-server:latest
+    image: sagiri2004/ticket-booking-discovery:latest
     networks:
       - microservice-networks
 
@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: authenticationservice/Dockerfile
-    image: ${DOCKER_USERNAME}/authentication-service:latest
+    image: sagiri2004/ticket-booking-authentication:latest
     networks:
       - microservice-networks
 
@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: userservice/Dockerfile
-    image: ${DOCKER_USERNAME}/user-service:latest
+    image: sagiri2004/ticket-booking-user:latest
     networks:
       - microservice-networks
 
@@ -29,7 +29,7 @@ services:
     build:
       context: .
       dockerfile: apigateway/Dockerfile
-    image: ${DOCKER_USERNAME}/api-gateway:latest
+    image: sagiri2004/ticket-booking-gateway:latest
     networks:
       - microservice-networks
 
@@ -37,7 +37,7 @@ services:
     build:
       context: .
       dockerfile: ticketservice/Dockerfile
-    image: ${DOCKER_USERNAME}/ticket-service:latest
+    image: sagiri2004/ticket-booking-ticket:latest
     networks:
       - microservice-networks
 
@@ -45,7 +45,7 @@ services:
     build:
       context: .
       dockerfile: bookingservice/Dockerfile
-    image: ${DOCKER_USERNAME}/booking-gateway:latest
+    image: sagiri2004/ticket-booking-booking:latest
     networks:
       - microservice-networks
 
@@ -53,7 +53,7 @@ services:
     build:
       context: .
       dockerfile: testservice/Dockerfile
-    image: ${DOCKER_USERNAME}/test-service:latest
+    image: sagiri2004/ticket-booking-test:latest
     networks:
       - microservice-networks
 
@@ -61,9 +61,10 @@ services:
     build:
       context: .
       dockerfile: notificationservice/Dockerfile
-    image: ${DOCKER_USERNAME}/notification-service:latest
+    image: sagiri2004/ticket-booking-notification:latest
     networks:
       - microservice-networks
+
 networks:
   microservice-networks:
     driver: bridge

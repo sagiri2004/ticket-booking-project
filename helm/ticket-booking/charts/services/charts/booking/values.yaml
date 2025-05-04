@@ -1,0 +1,18 @@
+image: sagiri2004/ticket-booking-booking:latest
+port: 9005
+replicas: 1
+resources:
+  requests:
+    cpu: 400m
+    memory: 384Mi
+  limits:
+    cpu: 800m
+    memory: 768Mi
+service:
+  type: ClusterIP
+  port: 9005
+hpa:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80

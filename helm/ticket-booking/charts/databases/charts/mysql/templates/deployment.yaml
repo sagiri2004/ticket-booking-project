@@ -19,4 +19,10 @@ spec:
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: {{ .Values.rootPassword }}
-          resources: {{- toYaml .Values.resources | nindent 10 }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}

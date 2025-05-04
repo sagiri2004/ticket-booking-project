@@ -1,13 +1,13 @@
 image: mysql:8.0
 port: 3306
-rootPassword: root
+rootPassword: "root"
 resources:
   requests:
-    cpu: 400m
-    memory: 384Mi
+    cpu: "400m"
+    memory: "384Mi"
   limits:
-    cpu: 800m
-    memory: 768Mi
+    cpu: "800m"
+    memory: "768Mi"
 service:
   type: ClusterIP
   port: 3306

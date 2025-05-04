@@ -1,0 +1,18 @@
+image: sagiri2k4/ticket-booking-discovery:latest
+replicas: 1
+port: 8761
+resources:
+  requests:
+    cpu: "400m"
+    memory: "384Mi"
+  limits:
+    cpu: "800m"
+    memory: "768Mi"
+service:
+  type: NodePort
+  port: 8761
+hpa:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80

@@ -1,15 +1,15 @@
 # Default values for ticket-booking chart
 
 # Enable/disable components
-axon:
+axon-server:
   enabled: true
 databases:
   enabled: true
 messaging:
   enabled: true
-discovery:
+discovery-server:
   enabled: true
-gateway:
+api-gateway:
   enabled: true
 services:
   enabled: true
@@ -20,7 +20,7 @@ global:
   namespace: ticket-booking
 
 # Axon configuration
-axon:
+axon-server:
   image: axoniq/axonserver:latest
   replicas: 1
   port: 8024
@@ -31,7 +31,7 @@ databases:
     enabled: true
     image: mysql:8.0
     port: 3306
-    rootPassword: example
+    rootPassword: root
   redis:
     enabled: true
     image: redis:6.2
@@ -39,9 +39,9 @@ databases:
 
 # Messaging configuration
 messaging:
-  kafka:
+  broker:
     enabled: true
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-server:7.7.0
     port: 9092
   zookeeper:
     enabled: true
@@ -49,13 +49,13 @@ messaging:
     port: 2181
 
 # Discovery configuration
-discovery:
+discovery-server:
   image: sagiri2k4/ticket-booking-discovery:latest
   replicas: 1
   port: 8761
 
 # Gateway configuration
-gateway:
+api-gateway:
   image: sagiri2k4/ticket-booking-gateway:latest
   replicas: 1
   port: 8080

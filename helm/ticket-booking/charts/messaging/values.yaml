@@ -1,6 +1,6 @@
-kafka:
+broker:
   enabled: true
-  image: confluentinc/cp-kafka:latest
+  image: confluentinc/cp-server:7.7.0
   port: 9092
 zookeeper:
   enabled: true

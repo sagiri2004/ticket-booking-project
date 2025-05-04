@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: notification
-  labels: {{- include "notification.labels" . | nindent 4 }}
+  name: notification-service
+  labels: {{- include "notification-service.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
-    matchLabels: {{- include "notification.selectorLabels" . | nindent 6 }}
+    matchLabels: {{- include "notification-service.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels: {{- include "notification.selectorLabels" . | nindent 8 }}
+      labels: {{- include "notification-service.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: notification
+        - name: notification-service
           image: {{ .Values.image }}
           imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.port }}
-          resources: {{- toYaml .Values.resources | nindent 10 }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}

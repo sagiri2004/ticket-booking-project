@@ -1,13 +1,13 @@
 {{/*
 Common labels
 */}}
-{{- define "notification.labels" -}}
-app: notification
+{{- define "notification-service.labels" -}}
+app: notification-service
 {{- end -}}
 
 {{/*
 Selector labels
 */}}
-{{- define "notification.selectorLabels" -}}
-app: notification
+{{- define "notification-service.selectorLabels" -}}
+app: notification-service
 {{- end -}}

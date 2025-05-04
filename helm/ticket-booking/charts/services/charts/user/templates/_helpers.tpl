@@ -1,13 +1,13 @@
 {{/*
 Common labels
 */}}
-{{- define "user.labels" -}}
-app: user
+{{- define "user-service.labels" -}}
+app: user-service
 {{- end -}}
 
 {{/*
 Selector labels
 */}}
-{{- define "user.selectorLabels" -}}
-app: user
+{{- define "user-service.selectorLabels" -}}
+app: user-service
 {{- end -}}

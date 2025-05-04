@@ -1,13 +1,13 @@
 {{/*
 Common labels
 */}}
-{{- define "ticket.labels" -}}
-app: ticket
+{{- define "ticket-service.labels" -}}
+app: ticket-service
 {{- end -}}
 
 {{/*
 Selector labels
 */}}
-{{- define "ticket.selectorLabels" -}}
-app: ticket
+{{- define "ticket-service.selectorLabels" -}}
+app: ticket-service
 {{- end -}}

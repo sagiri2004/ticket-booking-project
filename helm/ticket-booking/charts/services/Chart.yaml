@@ -4,21 +4,21 @@ description: A Helm chart for deploying microservices
 version: 0.1.0
 appVersion: "1.0.0"
 dependencies:
-  - name: authentication
+  - name: authentication-service
     version: 0.1.0
-    condition: authentication.enabled
-  - name: booking
+    condition: authentication-service.enabled
+  - name: booking-service
     version: 0.1.0
-    condition: booking.enabled
-  - name: notification
+    condition: booking-service.enabled
+  - name: notification-service
     version: 0.1.0
     condition: notification.enabled
-  - name: test
+  - name: test-service
     version: 0.1.0
-    condition: test.enabled
-  - name: ticket
+    condition: test-service.enabled
+  - name: ticket-service
     version: 0.1.0
-    condition: ticket.enabled
-  - name: user
+    condition: ticket-service.enabled
+  - name: user-service
     version: 0.1.0
-    condition: user.enabled
+    condition: user-service.enabled

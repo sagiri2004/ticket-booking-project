@@ -1,19 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: authentication
-  labels: { { - include "authentication.labels" . | nindent 4 } }
+  name: authentication-service
+  labels: {{- include "authentication-service.labels" . | nindent 4 }}
 spec:
-  replicas: { { .Values.replicas } }
+  replicas: {{ .Values.replicas }}
   selector:
-    matchLabels: { { - include "authentication.selectorLabels" . | nindent 6 } }
+    matchLabels: {{- include "authentication-service.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels: { { - include "authentication.selectorLabels" . | nindent 8 } }
+      labels: {{- include "authentication-service.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: authentication
-          image: { { .Values.image } }
+        - name: authentication-service
+          image: {{ .Values.image }}
           ports:
-            - containerPort: { { .Values.port } }
-          resources: { { - toYaml .Values.resources | nindent 10 } }
+            - containerPort: {{ .Values.port }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}

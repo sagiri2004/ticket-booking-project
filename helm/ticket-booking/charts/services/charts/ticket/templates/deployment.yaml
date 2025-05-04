@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ticket
-  labels: { { - include "ticket.labels" . | nindent 4 } }
+  name: ticket-service
+  labels: {{- include "ticket-service.labels" . | nindent 4 }}
 spec:
-  replicas: { { .Values.replicas } }
+  replicas: {{ .Values.replicas }}
   selector:
-    matchLabels: { { - include "ticket.selectorLabels" . | nindent 6 } }
+    matchLabels: {{- include "ticket-service.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels: { { - include "ticket.selectorLabels" . | nindent 8 } }
+      labels: {{- include "ticket-service.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: ticket
-          image: { { .Values.image } }
-          imagePullPolicy: { { .Values.global.imagePullPolicy } }
+        - name: ticket-service
+          image: {{ .Values.image }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           ports:
-            - containerPort: { { .Values.port } }
-          resources: { { - toYaml .Values.resources | nindent 10 } }
+            - containerPort: {{ .Values.port }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}

@@ -1,5 +1,5 @@
 apiVersion: v2
-name: ticket
-description: A Helm chart for deploying the ticket microservice
+name: ticket-service
+description: A Helm chart for deploying the ticket-service microservice
 version: 0.1.0
 appVersion: "1.0.0"

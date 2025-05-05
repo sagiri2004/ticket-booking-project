@@ -25,3 +25,6 @@ dependencies:
   - name: services
     version: 0.1.0
     condition: services.enabled
+  - name: monitoring
+    version: 0.1.0
+    condition: monitoring.enabled

@@ -10,6 +10,10 @@ spec:
   template:
     metadata:
       labels: {{- include "authentication-service.selectorLabels" . | nindent 8 }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9001"  # Port mà microservice expose metrics (thường là port chính)
+        prometheus.io/path: "/actuator/prometheus"  # Đường dẫn metrics của Spring Boot
     spec:
       containers:
         - name: authentication-service

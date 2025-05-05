@@ -1,24 +1,24 @@
 authentication-service:
   enabled: true
   image: sagiri2k4/ticket-booking-authentication:latest
-  port: 8081
+  port: 9001
 booking-service:
   enabled: true
   image: sagiri2k4/ticket-booking-booking:latest
-  port: 8082
+  port: 9005
 notification-service:
   enabled: true
   image: sagiri2k4/ticket-booking-notification:latest
-  port: 8083
+  port: 9006
 test-service:
   enabled: true
   image: sagiri2k4/ticket-booking-test:latest
-  port: 8084
+  port: 9003
 ticket-service:
   enabled: true
   image: sagiri2k4/ticket-booking-ticket:latest
-  port: 8085
+  port: 9004
 user-service:
   enabled: true
   image: sagiri2k4/ticket-booking-user:latest
-  port: 8086
+  port: 9002

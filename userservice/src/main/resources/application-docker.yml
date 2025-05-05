@@ -41,3 +41,9 @@ axon:
   axonserver:
     servers: axon-server:8124
     context: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -25,3 +25,9 @@ spring:
         default.replication.factor: 1
     consumer:
       group-id: notification-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

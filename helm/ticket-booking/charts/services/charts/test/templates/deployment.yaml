@@ -10,6 +10,11 @@ spec:
   template:
     metadata:
       labels: {{- include "test-service.selectorLabels" . | nindent 8 }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9003"  # Port mà microservice expose metrics (thường là port chính)
+        prometheus.io/path: "/actuator/prometheus"  # Đường dẫn metrics của Spring Boot
+
     spec:
       containers:
         - name: test-service

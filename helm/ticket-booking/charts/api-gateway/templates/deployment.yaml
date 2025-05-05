@@ -10,6 +10,11 @@ spec:
   template:
     metadata:
       labels: {{- include "api-gateway.selectorLabels" . | nindent 8 }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"  # Port mà microservice expose metrics (thường là port chính)
+        prometheus.io/path: "/actuator/prometheus"  # Đường dẫn metrics của Spring Boot
+
     spec:
       containers:
         - name: api-gateway

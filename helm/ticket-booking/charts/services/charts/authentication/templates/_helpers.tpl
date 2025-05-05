@@ -1,13 +1,13 @@
 {{/*
 Common labels
 */}}
-{{- define "authentication.labels" -}}
-app: authentication
+{{- define "authentication-service.labels" -}}
+app: authentication-service
 {{- end -}}
 
 {{/*
 Selector labels
 */}}
-{{- define "authentication.selectorLabels" -}}
-app: authentication
+{{- define "authentication-service.selectorLabels" -}}
+app: authentication-service
 {{- end -}}

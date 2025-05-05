@@ -1,0 +1,33 @@
+# Enable/disable monitoring components
+prometheus:
+  enabled: true
+  image: prom/prometheus:v2.30.3
+  port: 9090
+  replicas: 1
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+  service:
+    type: ClusterIP
+    port: 9090
+
+grafana:
+  enabled: true
+  image: grafana/grafana:8.1.5
+  port: 3000
+  replicas: 1
+  resources:
+    requests:
+      cpu: "100m"
+      memory: 128Mi
+    limits:
+      cpu: "500m"
+      memory: "256Mi"
+  service:
+    type: NodePort
+    port: 3000
+  adminPassword: admin

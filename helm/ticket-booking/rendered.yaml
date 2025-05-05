@@ -1,0 +1,845 @@
+---
+# Source: ticket-booking/charts/api-gateway/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: api-gateway
+---
+# Source: ticket-booking/charts/axon-server/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: axon-server
+  labels:
+    app: axon-server
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8024
+      targetPort: 8024
+      protocol: TCP
+  selector:
+    app: axon-server
+---
+# Source: ticket-booking/charts/databases/charts/mysql/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: 3306
+      protocol: TCP
+  selector:
+    app: mysql
+---
+# Source: ticket-booking/charts/databases/charts/redis/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: 6379
+      protocol: TCP
+  selector:
+    app: redis
+---
+# Source: ticket-booking/charts/discovery-server/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery-server
+  labels:
+    app: discovery-server
+spec:
+  type: NodePort
+  ports:
+    - port: 8761
+      targetPort: 8761
+      protocol: TCP
+  selector:
+    app: discovery-server
+---
+# Source: ticket-booking/charts/messaging/charts/broker/templates/service.yaml
+# Kafka Broker Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: broker
+  labels:
+    app: broker
+spec:
+  type: ClusterIP
+  selector:
+    app: broker
+  ports:
+    - name: kafka-client
+      protocol: TCP
+      port: 9092
+      targetPort: 9092
+    - name: kafka-internal
+      protocol: TCP
+      port: 29092
+      targetPort: 29092
+    - name: kafka-jmx
+      protocol: TCP
+      port: 9101
+      targetPort: 9101
+---
+# Source: ticket-booking/charts/messaging/charts/zookeeper/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+  labels:
+    app: zookeeper
+spec:
+  type: ClusterIP
+  ports:
+    - port: 2181
+      targetPort: 2181
+      protocol: TCP
+  selector:
+    app: zookeeper
+---
+# Source: ticket-booking/charts/services/charts/authentication-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication-service
+  labels:
+    app: authentication-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9001
+      targetPort: 8081
+      protocol: TCP
+  selector:
+    app: authentication-service
+---
+# Source: ticket-booking/charts/services/charts/booking-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-service
+  labels:
+    app: booking-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9005
+      targetPort: 8082
+      protocol: TCP
+  selector:
+    app: booking-service
+---
+# Source: ticket-booking/charts/services/charts/notification-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  labels:
+    app: notification-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9006
+      targetPort: 8083
+      protocol: TCP
+  selector:
+    app: notification-service
+---
+# Source: ticket-booking/charts/services/charts/test-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-service
+  labels:
+    app: test-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9003
+      targetPort: 8084
+      protocol: TCP
+  selector:
+    app: test-service
+---
+# Source: ticket-booking/charts/services/charts/ticket-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticket-service
+  labels:
+    app: ticket-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9004
+      targetPort: 8085
+      protocol: TCP
+  selector:
+    app: ticket-service
+---
+# Source: ticket-booking/charts/services/charts/user-service/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  labels:
+    app: user-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9002
+      targetPort: 8086
+      protocol: TCP
+  selector:
+    app: user-service
+---
+# Source: ticket-booking/charts/api-gateway/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: sagiri2k4/ticket-booking-gateway:latest
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+# Source: ticket-booking/charts/axon-server/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: axon-server
+  labels:
+    app: axon-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: axon-server
+  template:
+    metadata:
+      labels:
+        app: axon-server
+    spec:
+      containers:
+        - name: axon-server
+          image: axoniq/axonserver:latest
+          ports:
+            - containerPort: 8024
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+# Source: ticket-booking/charts/databases/charts/mysql/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "384Mi"
+            limits:
+              cpu: "800m"
+              memory: "768Mi"
+---
+# Source: ticket-booking/charts/databases/charts/redis/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:6.2
+          ports:
+            - containerPort: 6379
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+# Source: ticket-booking/charts/discovery-server/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discovery-server
+  labels:
+    app: discovery-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discovery-server
+  template:
+    metadata:
+      labels:
+        app: discovery-server
+    spec:
+      containers:
+        - name: discovery-server
+          image: sagiri2k4/ticket-booking-discovery:latest
+          ports:
+            - containerPort: 8761
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "384Mi"
+            limits:
+              cpu: "800m"
+              memory: "768Mi"
+---
+# Source: ticket-booking/charts/messaging/charts/broker/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka
+  labels:
+    app: broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broker
+  template:
+    metadata:
+      labels:
+        app: broker
+    spec:
+      containers:
+        - name: kafka
+          image: confluentinc/cp-server:7.7.0
+          ports:
+            - containerPort: 9092
+            - containerPort: 29092
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1024Mi"
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: KAFKA_BROKER_ID
+              value: "1"
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: "zookeeper:2181"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://kafka.$(POD_NAMESPACE).svc.cluster.local:29092,PLAINTEXT_HOST://kafka.$(POD_NAMESPACE).svc.cluster.local:9092"
+            - name: KAFKA_LISTENERS
+              value: "PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092"
+            - name: KAFKA_METRIC_REPORTERS
+              value: "io.confluent.metrics.reporter.ConfluentMetricsReporter"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS
+              value: "0"
+            - name: KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+              value: "1"
+            - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_JMX_PORT
+              value: "9101"
+            - name: KAFKA_JMX_HOSTNAME
+              value: "localhost"
+            - name: CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS
+              value: "kafka:29092"
+            - name: CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS
+              value: "1"
+            - name: CONFLUENT_METRICS_ENABLE
+              value: "true"
+            - name: CONFLUENT_SUPPORT_CUSTOMER_ID
+              value: "anonymous"
+            - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
+              value: "true"
+            - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_MIN_INSYNC_REPLICAS
+              value: "1"
+            - name: KAFKA_NUM_PARTITIONS
+              value: "1"
+---
+# Source: ticket-booking/charts/messaging/charts/zookeeper/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+  labels:
+    app: zookeeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+        - name: zookeeper
+          image: confluentinc/cp-zookeeper:latest
+          ports:
+            - containerPort: 2181
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1024Mi"
+          env:
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: "2181"
+---
+# Source: ticket-booking/charts/services/charts/authentication-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication-service
+  labels:
+    app: authentication-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication-service
+  template:
+    metadata:
+      labels:
+        app: authentication-service
+    spec:
+      containers:
+        - name: authentication-service
+          image: sagiri2k4/ticket-booking-authentication:latest
+          ports:
+            - containerPort: 8081
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "384Mi"
+            limits:
+              cpu: "800m"
+              memory: "768Mi"
+---
+# Source: ticket-booking/charts/services/charts/booking-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-service
+  labels:
+    app: booking-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booking-service
+  template:
+    metadata:
+      labels:
+        app: booking-service
+    spec:
+      containers:
+        - name: booking-service
+          image: sagiri2k4/ticket-booking-booking:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "384Mi"
+            limits:
+              cpu: "800m"
+              memory: "768Mi"
+---
+# Source: ticket-booking/charts/services/charts/notification-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  labels:
+    app: notification-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+        - name: notification-service
+          image: sagiri2k4/ticket-booking-notification:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8083
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "384Mi"
+            limits:
+              cpu: "800m"
+              memory: "768Mi"
+---
+# Source: ticket-booking/charts/services/charts/test-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-service
+  labels:
+    app: test-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-service
+  template:
+    metadata:
+      labels:
+        app: test-service
+    spec:
+      containers:
+        - name: test-service
+          image: sagiri2k4/ticket-booking-test:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8084
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "384Mi"
+            limits:
+              cpu: "800m"
+              memory: "768Mi"
+---
+# Source: ticket-booking/charts/services/charts/ticket-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticket-service
+  labels:
+    app: ticket-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticket-service
+  template:
+    metadata:
+      labels:
+        app: ticket-service
+    spec:
+      containers:
+        - name: ticket-service
+          image: sagiri2k4/ticket-booking-ticket:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8085
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "384Mi"
+            limits:
+              cpu: "800m"
+              memory: "768Mi"
+---
+# Source: ticket-booking/charts/services/charts/user-service/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  labels:
+    app: user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: sagiri2k4/ticket-booking-user:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8086
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "384Mi"
+            limits:
+              cpu: "800m"
+              memory: "768Mi"
+---
+# Source: ticket-booking/charts/api-gateway/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api-gateway
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+---
+# Source: ticket-booking/charts/axon-server/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: axon-server
+  labels:
+    app: axon-server
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: axon-server
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+---
+# Source: ticket-booking/charts/services/charts/authentication-service/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: authentication-service
+  labels:
+    app: authentication-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: authentication-service
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+---
+# Source: ticket-booking/charts/services/charts/booking-service/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: booking-service
+  labels:
+    app: booking-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: booking-service
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+---
+# Source: ticket-booking/charts/services/charts/notification-service/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: notification-service
+  labels:
+    app: notification-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: notification-service
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+---
+# Source: ticket-booking/charts/services/charts/test-service/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: test-service
+  labels:
+    app: test-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: test-service
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+---
+# Source: ticket-booking/charts/services/charts/ticket-service/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ticket-service
+  labels:
+    app: ticket-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ticket-service
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+---
+# Source: ticket-booking/charts/services/charts/user-service/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: user-service
+  labels:
+    app: user-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: user-service
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80

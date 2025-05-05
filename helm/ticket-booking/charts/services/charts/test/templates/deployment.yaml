@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test
-  labels: { { - include "test.labels" . | nindent 4 } }
+  name: test-service
+  labels: {{- include "test-service.labels" . | nindent 4 }}
 spec:
-  replicas: { { .Values.replicas } }
+  replicas: {{ .Values.replicas }}
   selector:
-    matchLabels: { { - include "test.selectorLabels" . | nindent 6 } }
+    matchLabels: {{- include "test-service.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels: { { - include "test.selectorLabels" . | nindent 8 } }
+      labels: {{- include "test-service.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: test
-          image: { { .Values.image } }
-          imagePullPolicy: { { .Values.global.imagePullPolicy } }
+        - name: test-service
+          image: {{ .Values.image }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
           ports:
-            - containerPort: { { .Values.port } }
-          resources: { { - toYaml .Values.resources | nindent 10 } }
+            - containerPort: {{ .Values.port }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}

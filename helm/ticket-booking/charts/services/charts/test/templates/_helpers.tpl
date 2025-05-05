@@ -1,13 +1,13 @@
 {{/*
 Common labels
 */}}
-{{- define "test.labels" -}}
-app: test
+{{- define "test-service.labels" -}}
+app: test-service
 {{- end -}}
 
 {{/*
 Selector labels
 */}}
-{{- define "test.selectorLabels" -}}
-app: test
+{{- define "test-service.selectorLabels" -}}
+app: test-service
 {{- end -}}

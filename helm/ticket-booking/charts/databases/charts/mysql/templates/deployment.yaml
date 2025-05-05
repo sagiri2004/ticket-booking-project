@@ -2,21 +2,27 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
-  labels: { { - include "mysql.labels" . | nindent 4 } }
+  labels: {{- include "mysql.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
-    matchLabels: { { - include "mysql.selectorLabels" . | nindent 6 } }
+    matchLabels: {{- include "mysql.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels: { { - include "mysql.selectorLabels" . | nindent 8 } }
+      labels: {{- include "mysql.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: mysql
-          image: { { .Values.image } }
+          image: {{ .Values.image }}
           ports:
-            - containerPort: { { .Values.port } }
+            - containerPort: {{ .Values.port }}
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: { { .Values.rootPassword } }
-          resources: { { - toYaml .Values.resources | nindent 10 } }
+              value: {{ .Values.rootPassword }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}

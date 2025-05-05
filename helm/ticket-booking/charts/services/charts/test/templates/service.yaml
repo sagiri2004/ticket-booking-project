@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: test
-  labels: { { - include "test.labels" . | nindent 4 } }
+  name: test-service
+  labels: {{- include "test-service.labels" . | nindent 4 }}
 spec:
-  type: { { .Values.service.type } }
+  type: {{ .Values.service.type }}
   ports:
-    - port: { { .Values.service.port } }
-      targetPort: { { .Values.port } }
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.port }}
       protocol: TCP
-  selector: { { - include "test.selectorLabels" . | nindent 4 } }
+  selector: {{- include "test-service.selectorLabels" . | nindent 4 }}

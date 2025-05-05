@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ticket
-  labels: { { - include "ticket.labels" . | nindent 4 } }
+  name: ticket-service
+  labels: {{- include "ticket-service.labels" . | nindent 4 }}
 spec:
-  type: { { .Values.service.type } }
+  type: {{ .Values.service.type }}
   ports:
-    - port: { { .Values.service.port } }
-      targetPort: { { .Values.port } }
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.port }}
       protocol: TCP
-  selector: { { - include "ticket.selectorLabels" . | nindent 4 } }
+  selector: {{- include "ticket-service.selectorLabels" . | nindent 4 }}

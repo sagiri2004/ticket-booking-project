@@ -52,6 +52,9 @@ cd $K8S_ROOT || { echo "Directory $K8S_ROOT not found"; exit 1; }
 # Deploy in order: databases > messaging > discovery > gateway > services
 echo "Deploying microservices in order..."
 
+# 0. Axon
+deploy_component "axon"
+
 # 1. Databases first (MySQL, Redis)
 deploy_component "databases"
 

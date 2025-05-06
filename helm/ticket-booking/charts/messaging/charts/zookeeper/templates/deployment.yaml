@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+  labels: {{- include "zookeeper.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels: {{- include "zookeeper.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "zookeeper.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: zookeeper
+          image: {{ .Values.image }}
+          ports:
+            - containerPort: {{ .Values.port }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}
+          env:
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: "2181"

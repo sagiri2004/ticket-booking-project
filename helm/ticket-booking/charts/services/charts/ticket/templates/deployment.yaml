@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticket-service
+  labels: {{- include "ticket-service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels: {{- include "ticket-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "ticket-service.selectorLabels" . | nindent 8 }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9004"  # Port mà microservice expose metrics (thường là port chính)
+        prometheus.io/path: "/actuator/prometheus"  # Đường dẫn metrics của Spring Boot
+
+    spec:
+      containers:
+        - name: ticket-service
+          image: {{ .Values.image }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.port }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}

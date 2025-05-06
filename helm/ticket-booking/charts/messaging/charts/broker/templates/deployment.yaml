@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broker
+  labels: {{- include "broker.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels: {{- include "broker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "broker.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: broker
+          image: {{ .Values.image }}
+          ports:
+            - containerPort: {{ .Values.port }}
+            - containerPort: 29092
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: KAFKA_BROKER_ID
+              value: "1"
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: "zookeeper:2181"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://broker.$(POD_NAMESPACE).svc.cluster.local:29092,PLAINTEXT_HOST://broker.$(POD_NAMESPACE).svc.cluster.local:9092"
+            - name: KAFKA_METRIC_REPORTERS
+              value: "io.confluent.metrics.reporter.ConfluentMetricsReporter"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS
+              value: "0"
+            - name: KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+              value: "1"
+            - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_JMX_PORT
+              value: "9101"
+            - name: KAFKA_JMX_HOSTNAME
+              value: "localhost"
+            - name: CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS
+              value: "broker:29092"
+            - name: CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS
+              value: "1"
+            - name: CONFLUENT_METRICS_ENABLE
+              value: "true"
+            - name: CONFLUENT_SUPPORT_CUSTOMER_ID
+              value: "anonymous"
+            - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
+              value: "true"
+            - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_MIN_INSYNC_REPLICAS
+              value: "1"
+            - name: KAFKA_NUM_PARTITIONS
+              value: "1"

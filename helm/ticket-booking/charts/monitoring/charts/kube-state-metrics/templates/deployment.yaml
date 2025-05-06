@@ -1,0 +1,26 @@
+{{- if .Values.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-state-metrics
+  labels:
+    {{- include "kube-state-metrics.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      {{- include "kube-state-metrics.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kube-state-metrics.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: kube-state-metrics
+      containers:
+        - name: kube-state-metrics
+          image: {{ .Values.image }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+{{- end }}

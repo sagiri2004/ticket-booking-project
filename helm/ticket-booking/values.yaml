@@ -1,0 +1,104 @@
+# Default values for ticket-booking chart
+
+# Enable/disable components
+axon-server:
+  enabled: true
+databases:
+  enabled: true
+messaging:
+  enabled: true
+discovery-server:
+  enabled: true
+api-gateway:
+  enabled: true
+services:
+  enabled: true
+
+# Global configurations
+global:
+  imagePullPolicy: IfNotPresent
+  namespace: ticket-booking
+
+# Axon configuration
+axon-server:
+  image: axoniq/axonserver:latest
+  replicas: 1
+  port: 8024
+
+# Databases configuration
+databases:
+  mysql:
+    enabled: true
+    image: mysql:8.0
+    port: 3306
+    rootPassword: root
+  redis:
+    enabled: true
+    image: redis:6.2
+    port: 6379
+
+# Messaging configuration
+messaging:
+  broker:
+    enabled: true
+    image: confluentinc/cp-server:7.7.0
+    port: 9092
+  zookeeper:
+    enabled: true
+    image: confluentinc/cp-zookeeper:latest
+    port: 2181
+
+# Discovery configuration
+discovery-server:
+  image: sagiri2k4/ticket-booking-discovery:latest
+  replicas: 1
+  port: 8761
+
+# Gateway configuration
+api-gateway:
+  image: sagiri2k4/ticket-booking-gateway:latest
+  replicas: 1
+  port: 8080
+
+# Services configuration
+services:
+  authentication:
+    enabled: true
+    image: sagiri2k4/ticket-booking-authentication:latest
+    port: 9001
+    replicas: 1
+  booking:
+    enabled: true
+    image: sagiri2k4/ticket-booking-booking:latest
+    port: 9005
+    replicas: 1
+  notification:
+    enabled: true
+    image: sagiri2k4/ticket-booking-notification:latest
+    port: 9006
+    replicas: 1
+  test:
+    enabled: false
+    image: sagiri2k4/ticket-booking-test:latest
+    port: 9003
+    replicas: 1
+  ticket:
+    enabled: true
+    image: sagiri2k4/ticket-booking-ticket:latest
+    port: 9004
+    replicas: 1
+  user:
+    enabled: true
+    image: sagiri2k4/ticket-booking-user:latest
+    port: 9002
+    replicas: 1
+
+# Placeholder for monitoring (to be added later)
+monitoring:
+  enabled: true
+  prometheus:
+    enabled: true
+  grafana:
+    enabled: true
+  kube-state-metrics:
+    enabled: true

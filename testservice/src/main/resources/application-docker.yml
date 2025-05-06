@@ -13,3 +13,9 @@ eureka:
 spring:
   application:
     name: test-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

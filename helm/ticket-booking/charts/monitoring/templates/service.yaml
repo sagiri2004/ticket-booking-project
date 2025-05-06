@@ -1,0 +1,34 @@
+{{- if .Values.prometheus.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  labels:
+    {{- include "prometheus.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.prometheus.service.type }}
+  ports:
+    - port: {{ .Values.prometheus.service.port }}
+      targetPort: {{ .Values.prometheus.port }}
+      protocol: TCP
+  selector:
+    {{- include "prometheus.selectorLabels" . | nindent 4 }}
+---
+{{- end }}
+
+{{- if .Values.grafana.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  labels:
+    {{- include "grafana.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.grafana.service.type }}
+  ports:
+    - port: {{ .Values.grafana.service.port }}
+      targetPort: {{ .Values.grafana.port }}
+      protocol: TCP
+  selector:
+    {{- include "grafana.selectorLabels" . | nindent 4 }}
+{{- end }}
